@@ -1,5 +1,5 @@
 import codecs
-# import re
+import re
 # import numpy as np
 # import pandas as pd
 # from openpyxl import Workbook
@@ -21,21 +21,25 @@ okt = Okt()
 # wd_ct_v = 0
 # wd_ct_a = 0
 #
-# lines = list()
-txt = codecs.open('data.txt', 'r', encoding='utf-8')
-# for line in txt :
-#     fletter = re.sub("(\(\S+\))", "", line)
-#     fletter = re.sub("(\(\S+)", "", fletter)
-#     fletter = re.sub("(\S+\))", "", fletter)
-#     fletter = re.sub("제\S+회", "", fletter)
-#     fletter = re.sub("한국\S+시험", "", fletter)
-#     fletter = re.sub("\S형", "", fletter)
-#     fletter = re.sub("남자 :", "", fletter)
-#     fletter = re.sub("여자 :", "", fletter)
-#
-#     if "※" in line or "능력시험" in line or "일반" in line or "<" in line or "TOPIK" in line or "～" in line or "～" in line or "B" in line :
-#         continue
-#     lines.append(fletter)
+lines = list()
+txt = codecs.open('data_test.txt', 'r', encoding='utf-8')
+for line in txt :
+
+    fletter = re.sub("(\(\S+\))", "", line)
+    fletter = re.sub("(\(\S+)", "", fletter)
+    fletter = re.sub("(\S+\))", "", fletter)
+    fletter = re.sub("제\S+회", "", fletter)
+    fletter = re.sub("한국\S+시험", "", fletter)
+    fletter = re.sub("\S형", "", fletter)
+    fletter = re.sub("남자 :", "", fletter)
+    fletter = re.sub("여자 :", "", fletter)
+
+    if "※" in line or "능력시험" in line or "일반" in line or "<" in line or "TOPIK" in line or "～" in line or "～" in line or "B" in line :
+        continue
+    lines.append(fletter)
+for line in lines:
+    print(line)
+
 # #엑셀 시트 생성
 # ws_t = wb.create_sheet(title = "T1_Tbw")
 # #ws_n = wb.create_sheet(title = "T1_Nbw")
@@ -183,7 +187,5 @@ txt = codecs.open('data.txt', 'r', encoding='utf-8')
 #     #끝
 # # 엑셀 관련
 
-print(okt.pos("저는 한국 사람입니다."))
-# for line in txt:
-#     wd = okt.pos(line)  # , norm=True, stem=True
-#     print(wd)
+
+#총 형태소 갯수: 710,288
