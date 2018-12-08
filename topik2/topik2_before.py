@@ -22,7 +22,7 @@ okt = Okt()
 # wd_ct_a = 0
 #
 lines = list()
-txt = codecs.open('data_test.txt', 'r', encoding='utf-8')
+txt = codecs.open('data.txt', 'r', encoding='utf-8')
 for line in txt :
 
     fletter = re.sub("(\(\S+\))", "", line)
@@ -37,8 +37,13 @@ for line in txt :
     if "※" in line or "능력시험" in line or "일반" in line or "<" in line or "TOPIK" in line or "～" in line or "～" in line or "B" in line :
         continue
     lines.append(fletter)
-for line in lines:
-    print(line)
+
+# new_file = open('data_updated.txt', 'w', encoding='utf-8')
+# for line in lines:
+#     new_file.write(line)
+# new_file.close()
+
+
 
 # #엑셀 시트 생성
 # ws_t = wb.create_sheet(title = "T1_Tbw")
@@ -188,4 +193,4 @@ for line in lines:
 # # 엑셀 관련
 
 
-#총 형태소 갯수: 710,288
+# 총 형태소 갯수: 710,288
