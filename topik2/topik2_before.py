@@ -1,42 +1,27 @@
 import codecs
 import re
 # import numpy as np
-# import pandas as pd
-# from openpyxl import Workbook
-# from openpyxl.utils.dataframe import dataframe_to_rows
+import pandas as pd
+from openpyxl import Workbook
+from openpyxl.utils.dataframe import dataframe_to_rows
 # import matplotlib.pyplot as plt
 from konlpy.tag import Okt
 from konlpy.utils import pprint
 #
-# wb = Workbook()
+wb = Workbook()
 okt = Okt()
-# word_dic_t = {}
+word_dic_t = {}
 # word_dic_n = {}
 # word_dic_v = {}
 # word_dic_a = {}
-# wd_ct_t_et = 0
+wd_ct_t_et = 0
 # wd_ct = 0
-# wd_ct_t = 0
+wd_ct_t = 0
 # wd_ct_n = 0
 # wd_ct_v = 0
 # wd_ct_a = 0
 #
-lines = list()
-txt = codecs.open('data.txt', 'r', encoding='utf-8')
-for line in txt :
-
-    fletter = re.sub("(\(\S+\))", "", line)
-    fletter = re.sub("(\(\S+)", "", fletter)
-    fletter = re.sub("(\S+\))", "", fletter)
-    fletter = re.sub("제\S+회", "", fletter)
-    fletter = re.sub("한국\S+시험", "", fletter)
-    fletter = re.sub("\S형", "", fletter)
-    fletter = re.sub("남자 :", "", fletter)
-    fletter = re.sub("여자 :", "", fletter)
-
-    if "※" in line or "능력시험" in line or "일반" in line or "<" in line or "TOPIK" in line or "～" in line or "～" in line or "B" in line :
-        continue
-    lines.append(fletter)
+txt = codecs.open('data_01.txt', 'r', encoding='utf-8')
 
 # new_file = open('data_updated.txt', 'w', encoding='utf-8')
 # for line in lines:
@@ -46,40 +31,40 @@ for line in txt :
 
 
 # #엑셀 시트 생성
-# ws_t = wb.create_sheet(title = "T1_Tbw")
+ws_t = wb.create_sheet(title = "T1_Tbw")
 # #ws_n = wb.create_sheet(title = "T1_Nbw")
 # #ws_v = wb.create_sheet(title = "T1_Vbw")
 # #ws_a = wb.create_sheet(title = "T1_Abw")
 # #엑셀 시트 생성 끝
-# tae_t_list = []
-# pumsa_list = []
-# taeso_list = []
-# line_list = []
-# for line in lines :
+tae_t_list = []
+pumsa_list = []
+taeso_list = []
+line_list = []
+for line in txt :
 #     #품사 분류
-#     wd = okt.pos(line) #, norm=True, stem=True
-#     for taeso, pumsa in wd :
-#         wd_ct_t_et += 1
-#         if pumsa != "Punctuation" and pumsa != "Foreign" and pumsa != "Number" and pumsa != "Unknown" and pumsa != "Alpha" and pumsa != "Josa" :
-#             t = okt.pos(taeso, norm=True, stem=True)
-#             for tae_t, pum_t in t :
-#                 line_list.append(line)
-#                 taeso_list.append(taeso)
-#                 pumsa_list.append(pumsa)
-#                 tae_t_list.append(tae_t)
-#                 if not (tae_t in word_dic_t) :
-#                     word_dic_t[tae_t] = 0
-#                 word_dic_t[tae_t] += 1
-#                 wd_ct_t += 1
-# raw_data = {'원형': tae_t_list,
-#             '품사': pumsa_list,
-#             '태소': taeso_list,
-#             '문장': line_list}
-# number = 0
-# df = pd.DataFrame(raw_data, columns = ["원형", "품사", "태소", "문장"])
-# for row in dataframe_to_rows(df, index=True, header=True):
-#     if len(row) > 1:
-#         ws_t.append(row)
+    wd = okt.pos(line) #, norm=True, stem=True
+    for taeso, pumsa in wd :
+        wd_ct_t_et += 1
+        if pumsa != "Punctuation" and pumsa != "Foreign" and pumsa != "Number" and pumsa != "Unknown" and pumsa != "Alpha" and pumsa != "Josa" :
+            t = okt.pos(taeso, norm=True, stem=True)
+            for tae_t, pum_t in t :
+                line_list.append(line)
+                taeso_list.append(taeso)
+                pumsa_list.append(pumsa)
+                tae_t_list.append(tae_t)
+                if not (tae_t in word_dic_t) :
+                    word_dic_t[tae_t] = 0
+                word_dic_t[tae_t] += 1
+                wd_ct_t += 1
+raw_data = {'원형': tae_t_list,
+            '품사': pumsa_list,
+            '태소': taeso_list,
+            '문장': line_list}
+number = 0
+df = pd.DataFrame(raw_data, columns = ["원형", "품사", "태소", "문장"])
+for row in dataframe_to_rows(df, index=True, header=True):
+    if len(row) > 1:
+        ws_t.append(row)
 #
 #
 #
@@ -126,15 +111,15 @@ for line in txt :
 # #            if taeso == "홀" :
 # #                print(line)
 #     ##해당 키워드 검색 끝###
-#     #빈도 순서에 따라 정렬#
-# #keys_t = sorted(word_dic_t.items(), key=lambda x:x[1], reverse=True)
+    #빈도 순서에 따라 정렬#
+keys_t = sorted(word_dic_t.items(), key=lambda x:x[1], reverse=True)
 # #keys_n = sorted(word_dic_n.items(), key=lambda x:x[1], reverse=True)
 # #keys_v = sorted(word_dic_v.items(), key=lambda x:x[1], reverse=True)
 # #keys_a = sorted(word_dic_a.items(), key=lambda x:x[1], reverse=True)
 #     #엑셀 Sheet 생성/자료 입력
-# #ws_tt = wb.create_sheet(title = "T1_Tbc")
-# #for row_t in keys_t :
-# #    ws_tt.append(row_t)
+ws_tt = wb.create_sheet(title = "T1_Tbc")
+for row_t in keys_t :
+   ws_tt.append(row_t)
 # #ws_nn = wb.create_sheet(title = "T1_Nbc")
 # #for row_n in keys_n :
 # #    ws_nn.append(row_n)
@@ -144,7 +129,7 @@ for line in txt :
 # #ws_aa = wb.create_sheet(title = "T1_Abc")
 # #for row_a in keys_a :
 # #    ws_aa.append(row_a)
-# wb.save("results/01topik1.xlsx") #저장
+wb.save("results/topik2_analysis.xlsx") #저장
 #     #엑셀 끝
 # #count_t = 0
 # #count_w = 0
